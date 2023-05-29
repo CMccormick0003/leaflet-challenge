@@ -1,5 +1,5 @@
 // Add console.log
-console.log("working");
+console.log("it_works");
 
 // Make the basemap with OpenStreetMap
 let basemap = L.tileLayer(
@@ -11,7 +11,6 @@ let basemap = L.tileLayer(
 let map = L.map("map", {
     center: [40.7, -94.5],
     zoom: 3
-
 })
 
 basemap.addTo(map);
@@ -56,26 +55,14 @@ function getColor(depth) {
     else if (depth > 300) {
         return "#ffba08"
     }
-    else if (depth > 350) {
-        return "#ff7900"
-    }
     else if (depth > 400) {
         return "#ff9100"
-    }
-    else if (depth > 450) {
-        return "#ff9e00"
     }
     else if (depth > 500) {
         return "#ffb600"
     }
-    else if (depth > 550) {
-        return "#8900f2"
-    }
     else if (depth > 600) {
         return "#db0086"
-    }
-    else if (depth > 650) {
-        return "#e500A4"
     }
     else if (depth > 700) {
         return "#f20089"
@@ -85,9 +72,9 @@ function getColor(depth) {
     }
 }
 
-// Get the earthquake data in json format from last 30 days from earthquake.usgs.gov
+// Get the earthquake data in json format from last 7 days from earthquake.usgs.gov
 
-d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson").then(function(data){
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data){
     function styleInfo(feature){
         return {
             opacity: 1,
@@ -100,7 +87,8 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geo
         }
     }
 
-// Pull the json data.  Set the marker shape as a circle.
+
+// Pull the json data.  Set the marker shape as a circle and customize based on earthquake features.
         L.geoJson(data, {
             pointToLayer: function(feature,latlng){
                 return L.circleMarker(latlng);
@@ -108,11 +96,26 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geo
             style: styleInfo,
             onEachFeature: function(feature,layer){
                 layer.bindPopup(`
-                    Magnitude: ${feature.properties.mag} <br>
                     Depth: ${feature.geometry.coordinates[2]} <br>
-                    Location: ${feature.properties.place}
-                `);
+                    Magnitude: ${feature.properties.mag} <br>
+                    Location: ${feature.properties.place}`);
             }
         }).addTo(map);
     
-}    
+
+ // Add map legend
+ let legend = L.control({
+    position:"topright"
+});
+
+legend.onAdd = function(){
+    let container = L.DomUtil.create("div", "info legend");
+    let grades = [0, 30, 50, 70, 100, 140, 180, 220, 260, 300, 350, 400, 450, 500, 550, 600, 650, 700];
+    let colors = ['#5CF20F', '#5CF20F', '#03071E', '#370617', '#6A040F', '#9D0208', '#D00000', '#DC2F02', '#E85D04', '#f48C06', '#faa307', '#ffba08', '#ff9100', '#ffb600', '#db0086', '#f20089', '#f3eff5'];
+    for(let index = 0; index < grades.length; index++) {
+        container.innerHTML += `<i style="background: ${colors[index]}"></i>${grades[index]}+ <br>`
+    }
+    return container;
+}
+    legend.addTo(map);
+})    
