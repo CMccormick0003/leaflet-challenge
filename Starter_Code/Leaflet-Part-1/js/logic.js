@@ -112,10 +112,16 @@ legend.onAdd = function(){
     let container = L.DomUtil.create("div", "info legend");
     let grades = [0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 300];
     let colors = ["#000000", "#fffdc8", "#ffcb64", "#9997fc", "#6665fd", "#9965fd", "#bb32fe", "#ff32fe", "#ff00ff", "#ff00aa", "#ff0055", "#cc0044", "#990033", "#000000"];
-    for(let index = 0; index < grades.length; index++) {
-        container.innerHTML += `<i style="background: ${colors[index]}"></i>${grades[index]}+ <br>`
+    // for(let index = 0; index < grades.length; index++) {
+    //    container.innerHTML += `<i style="background: ${colors[index]}"></i>${grades[index]}+ <br>`
+    //}
+
+    for (let i = 0; i < grades.length; i++) {
+        div.innerHTML += "<i style='background: " + colors[i] + "'></i> "
+          + grades[i] + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
     }
-    return container;
+
+    return div;
 }
     legend.addTo(map);
 })    
