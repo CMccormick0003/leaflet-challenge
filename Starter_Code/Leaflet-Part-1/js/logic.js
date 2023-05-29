@@ -9,8 +9,8 @@ let basemap = L.tileLayer(
 );
 
 let map = L.map("map", {
-    center: [40.7, -94.5],
-    zoom: 3
+    center: [30, -55],
+    zoom: 2.75
 })
 
 basemap.addTo(map);
@@ -25,65 +25,65 @@ function getRadius(magnitude) {
 
 // Show depth of the earthquake by color
 function getColor(depth) {
-    if(depth > 0) {
-        return "#f9f8d8"
+    if(depth > -1) {
+        return "#000000"
+    }
+    else if (depth > 5) {
+        return "#fffdc8"
+    }
+    else if (depth > 10) {
+        return "#ffcb64"
+    }
+    else if (depth > 20) {
+        return "#9997fc"
     }
     else if (depth > 30) {
-        return "#bbe619"
+        return "#6665fd"
+    }
+    else if (depth > 40) {
+        return "#9965fd"
     }
     else if (depth > 50) {
-        return "#dfe619"
+        return "#bb32fe"
+    }
+    else if (depth > 60) {
+        return "#ff32fe"
     }
     else if (depth > 70) {
-        return "#d6db4d"
+        return "#ff00ff"
+    }
+    else if (depth > 80) {
+        return "#ff00aa"
+    }
+    else if (depth > 90) {
+        return "#ff0055"
     }
     else if (depth > 100) {
-        return "#e3d735"
+        return "#cc0044"
     }
-    else if (depth > 140) {
-        return "#f3be16"
-    }
-    else if (depth > 180) {
-        return "#f3aa16"
-    }
-    else if (depth > 220) {
-        return "#f39116"
-    }
-    else if (depth > 260) {
-        return "#f37a16"
+    else if (depth > 150) {
+        return "#990033"
     }
     else if (depth > 300) {
-        return "#f35416"
-    }
-    else if (depth > 400) {
-        return "#f33716"
-    }
-    else if (depth > 500) {
-        return "#f32016"
-    }
-    else if (depth > 600) {
-        return "#c93b48"
-    }
-    else if (depth > 700) {
-        return "#562e3a"
+        return "#000000"
     }
     else {
-        return "#e4dcdf"
-    }
+        return "#ffffff"
+   }
 }
 
-// Get the earthquake data in json format from last 7 days from earthquake.usgs.gov
+// Get the earthquake data in json format from last day from earthquake.usgs.gov
 
-d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data){
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson").then(function(data){
     function styleInfo(feature){
         return {
             opacity: 1,
             fillOpacity: 1,
             fillColor: getColor(feature.geometry.coordinates[2]),
-            color: "#FFFFFF",
+            color: "#000000",
             radius: getRadius(feature.properties.mag),
             stroke: true,
-            weight: 0.4
+            weight: 0.5
         }
     }
 
@@ -105,13 +105,13 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
 
  // Add map legend
  let legend = L.control({
-    position:"topright"
+    position:"bottomleft"
 });
 
 legend.onAdd = function(){
     let container = L.DomUtil.create("div", "info legend");
-    let grades = [0, 30, 50, 70, 100, 140, 180, 220, 260, 300, 350, 400, 450, 500, 550, 600, 650, 700];
-    let colors = ['#f9f8d8', '#bbe619', '#dfe619', '#d6db4d', '#e3d735', '#f3be16', '#f3aa16', '#f39116', '#f37a16', '#f35416', '#f33716', '#f32016', '#c93b48', '#562e3a', '#e4dcdf'];
+    let grades = [0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 300];
+    let colors = ["#000000", "#fffdc8", "#ffcb64", "#9997fc", "#6665fd", "#9965fd", "#bb32fe", "#ff32fe", "#ff00ff", "#ff00aa", "#ff0055", "#cc0044", "#990033", "#000000"];
     for(let index = 0; index < grades.length; index++) {
         container.innerHTML += `<i style="background: ${colors[index]}"></i>${grades[index]}+ <br>`
     }
