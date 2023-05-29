@@ -26,49 +26,49 @@ function getRadius(magnitude) {
 // Show depth of the earthquake by color
 function getColor(depth) {
     if(depth > 0) {
-        return "#03071E"
+        return "#f9f8d8"
     }
     else if (depth > 30) {
-        return "#370617"
+        return "#bbe619"
     }
     else if (depth > 50) {
-        return "#6A040F"
+        return "#dfe619"
     }
     else if (depth > 70) {
-        return "#9D0208"
+        return "#d6db4d"
     }
     else if (depth > 100) {
-        return "#D00000"
+        return "#e3d735"
     }
     else if (depth > 140) {
-        return "#DC2F02"
+        return "#f3be16"
     }
     else if (depth > 180) {
-        return "#E85D04"
+        return "#f3aa16"
     }
     else if (depth > 220) {
-        return "#f48C06"
+        return "#f39116"
     }
     else if (depth > 260) {
-        return "#faa307"
+        return "#f37a16"
     }
     else if (depth > 300) {
-        return "#ffba08"
+        return "#f35416"
     }
     else if (depth > 400) {
-        return "#ff9100"
+        return "#f33716"
     }
     else if (depth > 500) {
-        return "#ffb600"
+        return "#f32016"
     }
     else if (depth > 600) {
-        return "#db0086"
+        return "#c93b48"
     }
     else if (depth > 700) {
-        return "#f20089"
+        return "#562e3a"
     }
     else {
-        return "#f3eff5"
+        return "#e4dcdf"
     }
 }
 
@@ -111,7 +111,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
 legend.onAdd = function(){
     let container = L.DomUtil.create("div", "info legend");
     let grades = [0, 30, 50, 70, 100, 140, 180, 220, 260, 300, 350, 400, 450, 500, 550, 600, 650, 700];
-    let colors = ['#5CF20F', '#5CF20F', '#03071E', '#370617', '#6A040F', '#9D0208', '#D00000', '#DC2F02', '#E85D04', '#f48C06', '#faa307', '#ffba08', '#ff9100', '#ffb600', '#db0086', '#f20089', '#f3eff5'];
+    let colors = ['#f9f8d8', '#bbe619', '#dfe619', '#d6db4d', '#e3d735', '#f3be16', '#f3aa16', '#f39116', '#f37a16', '#f35416', '#f33716', '#f32016', '#c93b48', '#562e3a', '#e4dcdf'];
     for(let index = 0; index < grades.length; index++) {
         container.innerHTML += `<i style="background: ${colors[index]}"></i>${grades[index]}+ <br>`
     }
